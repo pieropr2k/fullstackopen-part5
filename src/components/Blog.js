@@ -3,15 +3,15 @@ import blogService from '../services/blogs'
 
 const Blog = ({ blog, handleBlogs }) => {
   const [isFullyVisible, setIsFullyVisible] = useState(true)
-  
+
   // Exercise 5.7
   const toggleCompleteVisibility = () => {
     setIsFullyVisible(!isFullyVisible)
   }
-  
+
   // Exercise 5.8
   const handleLikesNumber = (blogID, blogLikes) => () => {
-    const blogUpgraded = {likes: blogLikes + 1}
+    const blogUpgraded = { likes: blogLikes + 1 }
     console.log(blogID, blogLikes)
     blogService.update(blogID, blogUpgraded)
     handleBlogs(blogUpgraded, 'update', blogID)
@@ -39,18 +39,18 @@ const Blog = ({ blog, handleBlogs }) => {
     <div style={blogStyle}>
       {isFullyVisible
         ? <>
-            {blog.title} {blog.author}
-            <button onClick={toggleCompleteVisibility}>view</button>
-          </>
+          {blog.title} {blog.author}
+          <button onClick={toggleCompleteVisibility}>view</button>
+        </>
         : <>
-            {blog.title} {blog.author} 
-            <button onClick={toggleCompleteVisibility}>hide</button>
-            <div>{blog.url}</div>
+          {blog.title} {blog.author}
+          <button onClick={toggleCompleteVisibility}>hide</button>
+          <div>{blog.url}</div>
             likes {blog.likes}
-            <button onClick={handleLikesNumber(blog.id, blog.likes)}>like</button>
-            <div>{blog.user.name}</div>
-            <button onClick={handleDeleteBlog(blog.id, blog.title, blog.author)}>remove</button>
-          </>
+          <button onClick={handleLikesNumber(blog.id, blog.likes)}>like</button>
+          <div>{blog.user.name}</div>
+          <button onClick={handleDeleteBlog(blog.id, blog.title, blog.author)}>remove</button>
+        </>
       }
     </div>
   )

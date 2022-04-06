@@ -2,7 +2,6 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 
 const BlogForm = ({ handleBlogs, handlePopUp }) => {
-  
   // Exercise 5.6
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')

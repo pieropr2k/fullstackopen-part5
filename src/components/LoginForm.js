@@ -1,4 +1,6 @@
-const LoginForm = ({handleLogin, inputValues, eventHandlers}) => {
+import PropTypes from 'prop-types'
+
+const LoginForm = ({ handleLogin, inputValues, eventHandlers }) => {
   return (
     <form onSubmit={handleLogin}>
       <div>
@@ -23,4 +25,12 @@ const LoginForm = ({handleLogin, inputValues, eventHandlers}) => {
     </form>
   )
 }
+
+// Exercise 5.11
+LoginForm.propTypes = {
+  handleLogin: PropTypes.func.isRequired,
+  inputValues: PropTypes.object.isRequired,
+  eventHandlers: PropTypes.object.isRequired
+}
+
 export default LoginForm

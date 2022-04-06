@@ -49,7 +49,7 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(newBlog))
     } else if (APImethod === 'update') {
-      setBlogs(blogs.map(blog => blog.id===blogID ? {...blog, likes: newBlog.likes} : blog))
+      setBlogs(blogs.map(blog => blog.id===blogID ? { ...blog, likes: newBlog.likes } : blog))
     } else if (APImethod === 'delete') {
       setBlogs(blogs.filter(blog => blog.id !== blogID))
     }
@@ -102,8 +102,8 @@ const App = () => {
         <h2>Log in to application</h2>
         <Notification message={errorMessage} isError={isError}/>
         <LoginForm handleLogin={handleLogin}
-                  inputValues={{username, password}}
-                  eventHandlers={{setUsername, setPassword}}
+          inputValues={{ username, password }}
+          eventHandlers={{ setUsername, setPassword }}
         />
       </div>
     )
