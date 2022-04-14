@@ -44,14 +44,24 @@ const App = () => {
     }, 5000)
   }
 
-  const handleBlogs = (newBlog, APImethod = 'create', blogID = '') => {
-    if (APImethod === 'create') {
-      blogFormRef.current.toggleVisibility()
-      setBlogs(blogs.concat(newBlog))
-    } else if (APImethod === 'update') {
-      setBlogs(blogs.map(blog => blog.id===blogID ? { ...blog, likes: newBlog.likes } : blog))
-    } else if (APImethod === 'delete') {
-      setBlogs(blogs.filter(blog => blog.id !== blogID))
+  const handleBlogs = async (APImethod, newBlog = {}) => {
+    const { newBlogContent, blogID } = newBlog
+    try {
+      if (APImethod === 'create') {
+        blogFormRef.current.toggleVisibility()
+        const newBlogFormatted = await blogService.create(newBlogContent)
+        popUpAdvicer(`a new blog '${newBlogContent.title}' by ${newBlogContent.author} added`, false)
+        setBlogs(blogs.concat(newBlogFormatted))
+      } else if (APImethod === 'updateLikes') {
+        blogService.update(blogID, newBlogContent)
+        setBlogs(blogs.map(blog => blog.id===blogID ? { ...blog, likes: newBlogContent.likes } : blog))
+      } else if (APImethod === 'delete') {
+        blogService.deleteBlog(blogID)
+        setBlogs(blogs.filter(blog => blog.id !== blogID))
+      }
+    } catch (error) {
+      popUpAdvicer(error.response.data.error, true)
+      //console.log(error.response.data.error, true)
     }
   }
 
@@ -90,7 +100,7 @@ const App = () => {
           <button onClick={handleLogOut}>logout</button>
         </div>
         <Togglable buttonLabel='new blog' ref={blogFormRef}>
-          <BlogForm handleBlogs={handleBlogs} handlePopUp={popUpAdvicer}/>
+          <BlogForm handleBlogs={handleBlogs}/>
         </Togglable>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} handleBlogs={handleBlogs}/>

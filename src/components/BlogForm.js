@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
-const BlogForm = ({ handleBlogs, handlePopUp }) => {
+const BlogForm = ({ handleBlogs }) => {
   // Exercise 5.6
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -9,33 +8,28 @@ const BlogForm = ({ handleBlogs, handlePopUp }) => {
 
   const handleCreate = async (event) => {
     event.preventDefault()
-    try {
-      const newBlog = await blogService.create({
-        title, author, url
-      })
-      //console.log(newBlog)
-      //console.log(title, author, url)
-      handleBlogs(newBlog)
-      handlePopUp(`a new blog '${title}' by ${author} added`, false)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-    } catch (exception) {
-      //console.log(exception.response)
-      handlePopUp(exception.response.data.error, true)
+    const newBlogContent = {
+      title,
+      author,
+      url,
     }
+    handleBlogs('create', { newBlogContent })
+    //handlePopUp(`a new blog '${title}' by ${author} added`, false)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
     <>
       <h2>create new</h2>
-      <form onSubmit={handleCreate}>
+      <form onSubmit={handleCreate} id='blogForm'>
         <div>
           title:
           <input
             type="text"
             value={title}
-            name="Username"
+            name="Title"
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
