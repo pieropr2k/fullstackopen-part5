@@ -53,13 +53,14 @@ const App = () => {
         popUpAdvicer(`a new blog '${newBlogContent.title}' by ${newBlogContent.author} added`, false)
         setBlogs(blogs.concat(newBlogFormatted))
       } else if (APImethod === 'updateLikes') {
-        blogService.update(blogID, newBlogContent)
+        await blogService.update(blogID, newBlogContent)
         setBlogs(blogs.map(blog => blog.id===blogID ? { ...blog, likes: newBlogContent.likes } : blog))
       } else if (APImethod === 'delete') {
-        blogService.deleteBlog(blogID)
+        await blogService.deleteBlog(blogID)
         setBlogs(blogs.filter(blog => blog.id !== blogID))
       }
     } catch (error) {
+      //console.log(error, 'checking error')
       popUpAdvicer(error.response.data.error, true)
       //console.log(error.response.data.error, true)
     }
@@ -102,7 +103,7 @@ const App = () => {
         <Togglable buttonLabel='new blog' ref={blogFormRef}>
           <BlogForm handleBlogs={handleBlogs}/>
         </Togglable>
-        {blogs.map(blog =>
+        {blogs.sort((a,b) => b.likes-a.likes).map(blog =>
           <Blog key={blog.id} blog={blog} handleBlogs={handleBlogs}/>
         )}
       </div>

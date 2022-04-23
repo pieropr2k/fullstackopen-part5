@@ -9,7 +9,10 @@ const setToken = newToken => {
 
 const getAll = async (loggedUserID) => {
   const request = await axios.get(baseUrl)
-  return request.data.filter(blog => blog.user.id === loggedUserID).sort((a,b) => b.likes-a.likes)
+  console.log(loggedUserID)
+  return request.data
+  //.sort((a,b) => b.likes-a.likes)
+  //.filter(blog => blog.user.id === loggedUserID)
 }
 
 const create = async newObject => {

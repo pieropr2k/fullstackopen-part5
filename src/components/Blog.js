@@ -45,12 +45,12 @@ const Blog = ({ blog, handleBlogs }) => {
             ? null
             : <>
               <div>{blog.url}</div>
-              <div>
-                {`likes ${blog.likes}`}
+              <div className='likesInfo'>
+                <span className='numberOfLikes'>{`likes ${blog.likes}`}</span>
                 <button className='addLikesButton' onClick={handleBlogLikesNumber(blog.id, blog.likes)}>like</button>
               </div>
               <div>{blog.user.name}</div>
-              <button onClick={handleDeleteBlog(blog.id, blog.title, blog.author)}>remove</button>
+              <button className='removeBlog' onClick={handleDeleteBlog(blog.id, blog.title, blog.author)}>remove</button>
             </>
         }
       </>
